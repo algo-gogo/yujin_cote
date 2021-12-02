@@ -13,6 +13,16 @@ N개의 수와 N-1개의 연산자가 주어졌을 때, 만들 수 있는 식의
 숫자 하나씩 스택에서 뽑아서 다시 스택에 쌓고 연산자 만나면 숫자두개뽑음
 
 뭐지??????모르겠음??>...
+
+
+백준은
+재귀
+깊이가
+1000이래
+...
+...
+
+
 '''
 
 from itertools import permutations
@@ -36,24 +46,21 @@ def calc(expression, value, index):
         value = temp
     else:
         index += 1
+        num = expression[index]
         if temp == "+":
-            num = expression[index]
             value += num
         elif temp == "-":
-            num = expression[index]
             value -= num
         elif temp == "*":
-            num = expression[index]
             value *= num
-        elif temp == "/":
-            num = expression[index]
+        else:
             if(num != 0):
                 value = int(value / num)
             else:
                 value = 0
     return calc(expression, value, index+1)
 
-def make_expression(numbers, operator_counts):
+def make_expression(operator_counts):
     operater_list = []
     for i in range(4):
         for j in range(operator_counts[i]):
@@ -81,6 +88,6 @@ def prunning(candidates, min_value, max_value):
 
     return prunning(candidates, min(temp, min_value), max(temp, max_value))
 
-prunning(make_expression(numbers, operator_counts), min_value, max_value)
+prunning(make_expression(operator_counts), min_value, max_value)
 
     
