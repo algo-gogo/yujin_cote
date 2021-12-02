@@ -71,7 +71,7 @@ def make_expression(operator_counts):
 min_value = 1000000000
 max_value = -1000000000
 
-def prunning(candidates, min_value, max_value):
+'''def prunning(candidates, min_value, max_value):
     if( len(candidates) == 0 ):
         print( max_value )
         print( min_value )
@@ -87,6 +87,25 @@ def prunning(candidates, min_value, max_value):
     candidates.remove(op)
 
     return prunning(candidates, min(temp, min_value), max(temp, max_value))
+'''
+
+def prunning(candidates, min_value, max_value):
+    while( len(candidates) != 0 ):
+        op = candidates[0]
+        expression = numbers[:]
+        for i in range(N-1):
+            expression.insert(i*2+1, op[i])
+
+        temp = calc(expression,0,0)
+
+        candidates.remove(op)
+
+        min_value = min(temp, min_value)
+        max_value = max(temp, max_value)
+
+    print( max_value )
+    print( min_value )
+
 
 prunning(make_expression(operator_counts), min_value, max_value)
 
