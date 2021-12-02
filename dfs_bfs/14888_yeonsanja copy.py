@@ -26,35 +26,32 @@ operators = ["+", "-", "*", "/"]
 operator_counts = list(map(int,input().split()))
 
 
-def calc(expression, stack):
-    if len(expression) == 0:
-        return stack[0]
+def calc(expression, value, index):
+    if len(expression) == index:
+        return value
     
-    temp = expression.pop()
+    temp = expression[index]
 
     if temp not in operators:
-        stack.append(temp)
+        value = temp
     else:
+        index += 1
         if temp == "+":
-            num1 = stack.pop()
-            num2 = stack.pop()
-            stack.append(num1 + num2)
+            num = expression[index]
+            value += num
         elif temp == "-":
-            num1 = stack.pop()
-            num2 = stack.pop()
-            stack.append(num2 - num1)
+            num = expression[index]
+            value -= num
         elif temp == "*":
-            num1 = stack.pop()
-            num2 = stack.pop()
-            stack.append(num1 * num2)
+            num = expression[index]
+            value *= num
         elif temp == "/":
-            num1 = stack.pop()
-            num2 = stack.pop()
-            if(num2 != 0):
-                stack.append(int(num2 / num1))
+            num = expression[index]
+            if(num != 0):
+                value = int(value / num)
             else:
-                stack.append(0)
-    return calc(expression, stack)
+                value = 0
+    return calc(expression, value, index+1)
 
 def make_expression(numbers, operator_counts):
     operater_list = []
@@ -62,28 +59,28 @@ def make_expression(numbers, operator_counts):
         for j in range(operator_counts[i]):
             operater_list.append(operators[i])
 
-    candidates = permutations(operater_list, len(operater_list))
+    return list(permutations(operater_list, len(operater_list)))
 
-    min_value = None
-    max_value = None
+min_value = 1000000000
+max_value = -1000000000
 
-    for i in candidates:
-        expression = numbers[:]
-        for j in range(1,len(i)+1):
-            expression.insert(j*2, i[j-1])
-        expression.reverse()
-        temp = calc(expression, [])
+def prunning(candidates, min_value, max_value):
+    if( len(candidates) == 0 ):
+        print( max_value )
+        print( min_value )
+        return
 
-        if min_value == None and max_value == None:
-            min_value = max_value = temp
-        else:
-            min_value = min(temp, min_value)
-            max_value = max(temp, max_value)
+    op = candidates[0]
+    expression = numbers[:]
+    for i in range(N-1):
+        expression.insert(i*2+1, op[i])
 
-    print( max_value )
-    print( min_value )
+    temp = calc(expression,0,0)
 
+    candidates.remove(op)
 
-make_expression(numbers, operator_counts)
+    return prunning(candidates, min(temp, min_value), max(temp, max_value))
+
+prunning(make_expression(numbers, operator_counts), min_value, max_value)
 
     
