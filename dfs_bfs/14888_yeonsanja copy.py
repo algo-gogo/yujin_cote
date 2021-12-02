@@ -66,7 +66,7 @@ def make_expression(operator_counts):
         for j in range(operator_counts[i]):
             operater_list.append(operators[i])
 
-    return list(permutations(operater_list, len(operater_list)))
+    return set(permutations(operater_list, len(operater_list)))
 
 min_value = 1000000000
 max_value = -1000000000
@@ -90,15 +90,12 @@ max_value = -1000000000
 '''
 
 def prunning(candidates, min_value, max_value):
-    while( len(candidates) != 0 ):
-        op = candidates[0]
+    for op in candidates:
         expression = numbers[:]
         for i in range(N-1):
             expression.insert(i*2+1, op[i])
 
         temp = calc(expression,0,0)
-
-        candidates.remove(op)
 
         min_value = min(temp, min_value)
         max_value = max(temp, max_value)
