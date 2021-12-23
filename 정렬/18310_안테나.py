@@ -10,8 +10,31 @@ house_list = list(map(int, input().split()))
 
 # house_list.sort()
 
-total = 0
-for i in house_list:
-    total += i
+# total = 0
+# for i in house_list:
+#     total += i
 
-print( total // len(house_list) )
+# print( total // len(house_list) )
+
+min_value = 0
+house_list.sort()
+index = 0
+for i in house_list[0:len(house_list)//2]:
+    total = 0
+    for j in house_list:
+        total += abs(j-i)
+
+    if (min_value == 0):
+        min_value = total
+        index = i
+    elif min_value > total:
+        min_value = total
+        index = i
+    
+print( index )
+
+'''
+1 1 5
+1+1+5 = 7
+7//3 = 2
+'''
