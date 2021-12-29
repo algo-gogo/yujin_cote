@@ -88,4 +88,14 @@ print(solution(x, wifi_list, N, C))
 30000
 3
 40
+
+3 3
+1
+3
+4
+
+3 3
+1
+4
+6
 '''
